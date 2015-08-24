@@ -14,8 +14,6 @@ public class MoveCharacter : MonoBehaviour {
 
 	public Rigidbody ball;
 
-	private RaycastHit hit;
-
 
 
 
@@ -28,11 +26,6 @@ public class MoveCharacter : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		Vector3 mousePos;
-		Vector3 cameraPos;
-		var ray = Camera.main.ViewportPointToRay(new Vector3 (0.5F, 0.5F, 0));
-		var playerPane = new Plane (Vector3.up, transform.position);
-		var hitDist = 0.0f;
 
 
 		if (Input.GetKey (moveUp)) {
@@ -75,27 +68,29 @@ public class MoveCharacter : MonoBehaviour {
 			transform.Translate(0f, speed * Time.deltaTime, 0f);
 				}
 
-		if (Input.GetKey (mouseClick)) {
+		if (Input.GetMouseButtonDown(0)) {
 
-//			if(playerPane.Raycast(ray, out hitDist)){
-//				var direction = ray.GetPoint(hitDist) - transform.position;
-//				if (Physics.Raycast(transform.position, direction, out hit, 50.0f)) {
-//					if (hit.rigidbody){
-//						hit.transform.root.rigidbody.AddForceAtPosition(5.0f * direction, hit.point);
-//					}
-//				}
-//			}
 
-			mousePos = Input.mousePosition;
-			//ballPos = Camera.current.ScreenToWorldPoint(mousePos);
-			cameraPos = Camera.main.ScreenToWorldPoint(mousePos);// - new Vector3(0,0, - 2);
-			cameraPos.z = 0;
-			var mouseDir = cameraPos - transform.position;
-			mouseDir = cameraPos.normalized;
+			var hit = new RaycastHit();
+			var dist = 100.0f;
+			Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if(Physics.Raycast(mouseRay, out hit)){
+				dist = hit.distance;
+			}
 
-			Rigidbody ballInstance =  Instantiate(ball, transform.position + transform.forward * 5.0f, transform.rotation) as Rigidbody;
+			var point = mouseRay.GetPoint(dist);
+
+//			mousePos = Input.mousePosition;
+//			//ballPos = Camera.current.ScreenToWorldPoint(mousePos);
+//			cameraPos = Camera.main.ScreenToWorldPoint(mousePos);// - new Vector3(0,0, - 2);
+//			cameraPos.z = 0;
+//			var mouseDir = cameraPos - transform.position;
+//			mouseDir = cameraPos.normalized;
+
+			Rigidbody ballInstance =  Instantiate(ball, transform.position + transform.forward * 1.5f, transform.rotation) as Rigidbody;
+			ballInstance.transform.LookAt(point);
 //			ballInstance.AddForce(cameraPos + transform.forward * 10.0f);
-			ballInstance.AddForce(mouseDir);
+			ballInstance.AddForce(ballInstance.transform.forward * 2000F);
 			
 
 		}
