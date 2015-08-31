@@ -13,7 +13,7 @@ public class MoveCharacter : MonoBehaviour {
 	public KeyCode jump;
 
 	public Rigidbody ball;
-
+	public Texture2D crosshair;
 
 
 
@@ -22,11 +22,20 @@ public class MoveCharacter : MonoBehaviour {
 	void Start () {
 
 	}
+
+	void OnGUI()
+	{
+		float xMin = (Screen.width - Input.mousePosition.x) - (crosshair.width / 4);
+		float yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 4);
+		GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 2 , crosshair.height / 2), crosshair);
+	}
 	
 
 	// Update is called once per frame
 	void Update () {
-
+		Screen.lockCursor = true;
+		var hit = new RaycastHit();
+		Physics.Raycast (Camera.main.transform.position, Camera.main.transform.forward, out hit, 5);
 
 		if (Input.GetKey (moveUp)) {
 			if (Input.GetKey (moveLeft)){
@@ -71,7 +80,7 @@ public class MoveCharacter : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0)) {
 
 
-			var hit = new RaycastHit();
+
 			var dist = 100.0f;
 			Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if(Physics.Raycast(mouseRay, out hit)){
@@ -80,16 +89,10 @@ public class MoveCharacter : MonoBehaviour {
 
 			var point = mouseRay.GetPoint(dist);
 
-//			mousePos = Input.mousePosition;
-//			//ballPos = Camera.current.ScreenToWorldPoint(mousePos);
-//			cameraPos = Camera.main.ScreenToWorldPoint(mousePos);// - new Vector3(0,0, - 2);
-//			cameraPos.z = 0;
-//			var mouseDir = cameraPos - transform.position;
-//			mouseDir = cameraPos.normalized;
+//			
 
 			Rigidbody ballInstance =  Instantiate(ball, transform.position + transform.forward * 1.5f, transform.rotation) as Rigidbody;
 			ballInstance.transform.LookAt(point);
-//			ballInstance.AddForce(cameraPos + transform.forward * 10.0f);
 			ballInstance.AddForce(ballInstance.transform.forward * 2000F);
 			
 
