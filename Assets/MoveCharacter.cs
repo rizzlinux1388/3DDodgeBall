@@ -20,7 +20,7 @@ public class MoveCharacter : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		Screen.lockCursor = true;
 	}
 
 	void OnGUI()
@@ -37,38 +37,60 @@ public class MoveCharacter : MonoBehaviour {
 		var hit = new RaycastHit();
 		Physics.Raycast (Camera.main.transform.position, Camera.main.transform.forward, out hit, 5);
 
+		// Clean up to be a switch statement
+		KeyCode movementKey = moveUp;
+
+//		switch (moveUp) {
+//		case moveUp:
+//			rigidbody.AddForce(transform.forward * speed);
+//			break;
+//		case movementKey = moveDown:
+//			rigidbody.AddForce(transform.forward * -speed);
+//			break;
+//		default:
+//			print ("Hello");
+//			break;
+//		}
+//		direction = "";
+//		
+//		if( Input.GetKey("up") ) direction += "up";
+//		else if( Input.GetKey("down") ) direction += "down";
+//		
+//		if( Input.GetKey("right") ) direction += "right";
+//		else if( Input.GetKey("left") ) direction += "left";
+
 		if (Input.GetKey (moveUp)) {
 			if (Input.GetKey (moveLeft)){
-				rigidbody.AddForce(transform.forward * speed);
-				rigidbody.AddForce(transform.right * -speed);
+				GetComponent<Rigidbody>().AddForce(transform.forward * speed);
+				GetComponent<Rigidbody>().AddForce(transform.right * -speed);
 			}
 			else if (Input.GetKey (moveRight)){
-				rigidbody.AddForce(transform.forward * speed);
-				rigidbody.AddForce(transform.right * speed);
+				GetComponent<Rigidbody>().AddForce(transform.forward * speed);
+				GetComponent<Rigidbody>().AddForce(transform.right * speed);
 			}
 			else{
-				rigidbody.AddForce(transform.forward * speed);
+				GetComponent<Rigidbody>().AddForce(transform.forward * speed);
 			}
 		}
 		else if (Input.GetKey (moveDown)) {
 			if (Input.GetKey (moveLeft)){
-				rigidbody.AddForce(transform.forward * -speed);
-				rigidbody.AddForce(transform.right * -speed);
+				GetComponent<Rigidbody>().AddForce(transform.forward * -speed);
+				GetComponent<Rigidbody>().AddForce(transform.right * -speed);
 			}
 			else if (Input.GetKey (moveRight)){
-				rigidbody.AddForce(transform.forward * -speed);
-				rigidbody.AddForce(transform.right * speed);
+				GetComponent<Rigidbody>().AddForce(transform.forward * -speed);
+				GetComponent<Rigidbody>().AddForce(transform.right * speed);
 			}
 			else{
-				rigidbody.AddForce(transform.forward * -speed);
+				GetComponent<Rigidbody>().AddForce(transform.forward * -speed);
 			}
 		}
 		else if (Input.GetKey (moveLeft)) {
-			rigidbody.AddForce(transform.right * -speed);
+			GetComponent<Rigidbody>().AddForce(transform.right * -speed);
 			
 		}
 		else if (Input.GetKey (moveRight)) {
-			rigidbody.AddForce(transform.right * speed);
+			GetComponent<Rigidbody>().AddForce(transform.right * speed);
 			
 		}
 
@@ -91,9 +113,9 @@ public class MoveCharacter : MonoBehaviour {
 
 //			
 
-			Rigidbody ballInstance =  Instantiate(ball, transform.position + transform.forward * 1.5f, transform.rotation) as Rigidbody;
+			var ballInstance =  Instantiate(ball, transform.position + transform.forward * 1.5f, transform.rotation) as Rigidbody;
 			ballInstance.transform.LookAt(point);
-			ballInstance.AddForce(ballInstance.transform.forward * 2000F);
+			ballInstance.AddForce(ballInstance.transform.forward * 4000F);
 			
 
 		}
