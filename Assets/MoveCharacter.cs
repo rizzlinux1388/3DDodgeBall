@@ -15,6 +15,8 @@ public class MoveCharacter : MonoBehaviour {
 	public Rigidbody ball;
 	public Texture2D crosshair;
 
+	public enum Movement {Up, Down, Left, Right};
+
 
 
 
@@ -37,61 +39,18 @@ public class MoveCharacter : MonoBehaviour {
 		var hit = new RaycastHit();
 		Physics.Raycast (Camera.main.transform.position, Camera.main.transform.forward, out hit, 5);
 
-		// Clean up to be a switch statement
-		KeyCode movementKey = moveUp;
-
-//		switch (moveUp) {
-//		case moveUp:
-//			rigidbody.AddForce(transform.forward * speed);
-//			break;
-//		case movementKey = moveDown:
-//			rigidbody.AddForce(transform.forward * -speed);
-//			break;
-//		default:
-//			print ("Hello");
-//			break;
-//		}
-//		direction = "";
-//		
-//		if( Input.GetKey("up") ) direction += "up";
-//		else if( Input.GetKey("down") ) direction += "down";
-//		
-//		if( Input.GetKey("right") ) direction += "right";
-//		else if( Input.GetKey("left") ) direction += "left";
+		Movement movesUpDown;
+		Movement movesLeftRight;
 
 		if (Input.GetKey (moveUp)) {
-			if (Input.GetKey (moveLeft)){
-				GetComponent<Rigidbody>().AddForce(transform.forward * speed);
-				GetComponent<Rigidbody>().AddForce(transform.right * -speed);
-			}
-			else if (Input.GetKey (moveRight)){
-				GetComponent<Rigidbody>().AddForce(transform.forward * speed);
-				GetComponent<Rigidbody>().AddForce(transform.right * speed);
-			}
-			else{
-				GetComponent<Rigidbody>().AddForce(transform.forward * speed);
-			}
+			movesUpDown = Movement.Up;
+		} else if (Input.GetKey (moveDown)) {
+			movesUpDown = Movement.Down;
 		}
-		else if (Input.GetKey (moveDown)) {
-			if (Input.GetKey (moveLeft)){
-				GetComponent<Rigidbody>().AddForce(transform.forward * -speed);
-				GetComponent<Rigidbody>().AddForce(transform.right * -speed);
-			}
-			else if (Input.GetKey (moveRight)){
-				GetComponent<Rigidbody>().AddForce(transform.forward * -speed);
-				GetComponent<Rigidbody>().AddForce(transform.right * speed);
-			}
-			else{
-				GetComponent<Rigidbody>().AddForce(transform.forward * -speed);
-			}
-		}
-		else if (Input.GetKey (moveLeft)) {
-			GetComponent<Rigidbody>().AddForce(transform.right * -speed);
-			
-		}
-		else if (Input.GetKey (moveRight)) {
-			GetComponent<Rigidbody>().AddForce(transform.right * speed);
-			
+		if (Input.GetKey (moveLeft)) {
+			movesLeftRight = Movement.Left;
+		} else if (Input.GetKey (moveRight)) {
+			movesLeftRight = Movement.Right;
 		}
 
 		if (Input.GetKey (jump)) {
