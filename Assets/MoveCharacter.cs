@@ -21,6 +21,8 @@ public class MoveCharacter : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Screen.lockCursor = true;
+//		var ballInstance = Instantiate(ball, Vector3(19.69661f, 2.0f, 10.16132f), ball.transsform.rotation) as Rigidbody;
+		var ballInstance = Instantiate(ball);
 	}
 
 	void OnGUI()
@@ -55,23 +57,28 @@ public class MoveCharacter : MonoBehaviour {
 				}
 
 		if (Input.GetMouseButtonDown(0)) {
-
-
-
 			var dist = 100.0f;
 			Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if(Physics.Raycast(mouseRay, out hit)){
 				dist = hit.distance;
 			}
 
-			var point = mouseRay.GetPoint(dist);
+//			var point = mouseRay.GetPoint(dist);
 
-//			
+//			var ballInstance =  Instantiate(ball, transform.position + transform.forward * 1.5f, transform.rotation) as Rigidbody;
+//			ballInstance.transform.LookAt(point);
+//			ballInstance.AddForce(ballInstance.transform.forward * 4000F);
 
-			var ballInstance =  Instantiate(ball, transform.position + transform.forward * 1.5f, transform.rotation) as Rigidbody;
-			ballInstance.transform.LookAt(point);
-			ballInstance.AddForce(ballInstance.transform.forward * 4000F);
-			
+
+		}
+	}
+
+	void OnCollisionEnter(Collision col){
+		if(col.gameObject.name == "ball")
+		{
+//			Destroy(col.gameObject);
+			FixedJoint ballJoint = col.gameObject.AddComponent<FixedJoint>() as FixedJoint;
+
 
 		}
 	}
