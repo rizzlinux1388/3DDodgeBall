@@ -15,8 +15,6 @@ public class MoveCharacter : MonoBehaviour {
 	public Rigidbody ball;
 	public Texture2D crosshair;
 
-	public enum Movement {Up, Down, Left, Right};
-
 
 
 
@@ -39,20 +37,18 @@ public class MoveCharacter : MonoBehaviour {
 		var hit = new RaycastHit();
 		Physics.Raycast (Camera.main.transform.position, Camera.main.transform.forward, out hit, 5);
 
-		Movement movesUpDown;
-		Movement movesLeftRight;
-
-		if (Input.GetKey (moveUp)) {
-			movesUpDown = Movement.Up;
-		} else if (Input.GetKey (moveDown)) {
-			movesUpDown = Movement.Down;
+		if (Input.GetKey(moveUp)) {
+			GetComponent<Rigidbody> ().AddForce (transform.forward * speed);
+		} else if (Input.GetKey(moveDown)) {
+			GetComponent<Rigidbody> ().AddForce (transform.forward * -speed);
 		}
-		if (Input.GetKey (moveLeft)) {
-			movesLeftRight = Movement.Left;
-		} else if (Input.GetKey (moveRight)) {
-			movesLeftRight = Movement.Right;
+		if (Input.GetKey(moveRight)) {
+			GetComponent<Rigidbody>().AddForce(transform.right * speed);
+		} else if (Input.GetKey(moveLeft)) {
+			GetComponent<Rigidbody>().AddForce(transform.right * -speed);
 		}
-
+		
+		
 		if (Input.GetKey (jump)) {
 //			rigidbody.AddForce(transform.up, ForceMode.Impulse);
 			transform.Translate(0f, speed * Time.deltaTime, 0f);
@@ -79,4 +75,6 @@ public class MoveCharacter : MonoBehaviour {
 
 		}
 	}
+
+
 }
