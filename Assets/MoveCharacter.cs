@@ -18,6 +18,7 @@ public class MoveCharacter : MonoBehaviour {
 
 
 
+
 	// Use this for initialization
 	void Start () {
 		Screen.lockCursor = true;
@@ -37,27 +38,25 @@ public class MoveCharacter : MonoBehaviour {
 		var hit = new RaycastHit();
 		Physics.Raycast (Camera.main.transform.position, Camera.main.transform.forward, out hit, 5);
 
+
 		if (Input.GetKey(moveUp)) {
 			GetComponent<Rigidbody> ().AddForce (transform.forward * speed);
 		} else if (Input.GetKey(moveDown)) {
 			GetComponent<Rigidbody> ().AddForce (transform.forward * -speed);
-		}
+		} 
 		if (Input.GetKey(moveRight)) {
 			GetComponent<Rigidbody>().AddForce(transform.right * speed);
 		} else if (Input.GetKey(moveLeft)) {
 			GetComponent<Rigidbody>().AddForce(transform.right * -speed);
 		}
-		
-		
+			
+
 		if (Input.GetKey (jump)) {
 //			rigidbody.AddForce(transform.up, ForceMode.Impulse);
 			transform.Translate(0f, speed * Time.deltaTime, 0f);
 				}
 
 		if (Input.GetMouseButtonDown(0)) {
-
-
-
 			var dist = 100.0f;
 			Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if(Physics.Raycast(mouseRay, out hit)){
@@ -66,8 +65,6 @@ public class MoveCharacter : MonoBehaviour {
 
 			var point = mouseRay.GetPoint(dist);
 
-//			
-
 			var ballInstance =  Instantiate(ball, transform.position + transform.forward * 1.5f, transform.rotation) as Rigidbody;
 			ballInstance.transform.LookAt(point);
 			ballInstance.AddForce(ballInstance.transform.forward * 4000F);
@@ -75,6 +72,4 @@ public class MoveCharacter : MonoBehaviour {
 
 		}
 	}
-
-
 }
